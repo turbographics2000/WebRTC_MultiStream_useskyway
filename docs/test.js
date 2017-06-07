@@ -17,7 +17,7 @@ fetch(`https://skyway.io/${apiKey}/id?ts=${Date.now()}${Math.random()}`).then(re
 
 btnAddStream.onclick = evt => {
   if (!pc) pcSetup(callTo.value);
-  addStream({ deviceId: devices[deviceIdx].deviceId});
+  addStream({ deviceId: devices[deviceIdx].deviceId });
   deviceIdx++;
   if (deviceIdx === devices.length) {
     btnAddStream.style.display = 'none';
@@ -25,20 +25,20 @@ btnAddStream.onclick = evt => {
 }
 
 function createVideoElm(container, stream) {
-    var vid = document.createElement('video');
-    vid.onloadedmetadata = evt => {
-      vid.style.width = (vid.videoWidth / vid.videoHeight * 160) + 'px';
-      vid.style.height = '160px';
-      vid.play();
-      container.appendChild(vid);
-    }
-    vid.srcObject = stream;
+  var vid = document.createElement('video');
+  vid.onloadedmetadata = evt => {
+    vid.style.width = (vid.videoWidth / vid.videoHeight * 160) + 'px';
+    vid.style.height = '160px';
+    vid.play();
+    container.appendChild(vid);
+  }
+  vid.srcObject = stream;
 }
 
 function addStream(video = false, audio = false) {
   navigator.mediaDevices.getUserMedia({ video, audio }).then(stream => {
     createVideoElm(selfViewContainer, stream);
-    if(pc.addStream) {
+    if (pc.addStream) {
       pc.addStream(stream);
     } else {
       stream.getTracks().forEach(track => {
@@ -72,11 +72,16 @@ function socketSetup() {
         })
         .then(_ => {
           console.log('%cSend answer', 'color: red', 'dst:' + pc.remoteId, pc.localDescription);
-          socket.send(JSON.stringify({
-            type: 'ANSWER',
-            ans: pc.localDescription,
-            dst: pc.remoteId
-          }));
+          try {
+            socket.send(JSON.stringify({
+              type: 'ANSWER',
+              ans: pc.localDescription,
+              dst: pc.remoteId
+            }));
+
+          } catch (ex) {
+            console.log('send answer error', ex);
+          }
         })
         .catch(ex => {
           console.log('Recieve Offer error.', ex);
@@ -97,7 +102,7 @@ function socketSetup() {
       socket.send(JSON.stringify({ type: 'PONG' }));
     }
   }
-  socket.onclose = function(evt) {
+  socket.onclose = function (evt) {
     console.log('socket onclose', JSON.stringify(evt));
   }
 }
@@ -134,8 +139,8 @@ function pcSetup(remoteId) {
     console.log('%cpc onaddstream', 'background: #ea4335, font-weight: bold; padding: 1px;');
     createVideoElm(remoteViewContainer, evt.stream);
   }
-  pc.ontrack = function(evt) {
-    if(evt.track.kind === 'video') {
+  pc.ontrack = function (evt) {
+    if (evt.track.kind === 'video') {
       evt.streams.forEach(stream => {
         createVideoElm(remoteViewContainer, stream);
       })
