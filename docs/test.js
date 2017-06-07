@@ -24,16 +24,20 @@ btnAddStream.onclick = evt => {
   }
 }
 
-function addStream(video = false, audio = false) {
-  navigator.mediaDevices.getUserMedia({ video, audio }).then(stream => {
+function createVideoElm(container, stream) {
     var vid = document.createElement('video');
     vid.onloadedmetadata = evt => {
       vid.style.width = (vid.videoWidth / vid.videoHeight * 160) + 'px';
       vid.style.height = '160px';
       vid.play();
-      selfViewContainer.appendChild(vid);
+      container.appendChild(vid);
     }
     vid.srcObject = stream;
+}
+
+function addStream(video = false, audio = false) {
+  navigator.mediaDevices.getUserMedia({ video, audio }).then(stream => {
+    createVideoElm(selfViewContainer, stream);
     if(pc.addStream) {
       pc.addStream(stream);
     } else {
@@ -123,6 +127,13 @@ function pcSetup(remoteId) {
   }
   pc.onaddstream = function (evt) {
     console.log('%cpc onaddstream', 'background: #ea4335, font-weight: bold; padding: 1px;');
-    remoteView.srcObject = evt.stream;
+    createVideoElm(remoteViewContainer, evt.stream);
+  }
+  pc.ontrack = function(evt) {
+    if(evt.track.kind === 'video') {
+      evt.streams.forEach(stream => {
+        createVideoElm(remoteViewContainer, stream);
+      })
+    }
   }
 }
