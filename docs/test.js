@@ -72,16 +72,11 @@ function socketSetup() {
         })
         .then(_ => {
           console.log('%cSend answer', 'color: red', 'dst:' + pc.remoteId, pc.localDescription);
-          try {
-            socket.send(JSON.stringify({
-              type: 'ANSWER',
-              ans: pc.localDescription,
-              dst: pc.remoteId
-            }));
-
-          } catch (ex) {
-            console.log('send answer error', ex);
-          }
+          socket.send(JSON.stringify({
+            type: 'ANSWER',
+            ans: pc.localDescription,
+            dst: pc.remoteId
+          }));
         })
         .catch(ex => {
           console.log('Recieve Offer error.', ex);
