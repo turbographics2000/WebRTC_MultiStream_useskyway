@@ -71,7 +71,7 @@ function socketSetup() {
           return pc.setLocalDescription(answer);
         })
         .then(_ => {
-          console.log('%cSend answer', 'color: red', 'dst:' + pc.remoteId, pc.localDescription);
+          console.log('%cSend answer', 'background: red; padding: 1px', 'dst:' + pc.remoteId, pc.localDescription);
           socket.send(JSON.stringify({
             type: 'ANSWER',
             ans: pc.localDescription,
@@ -94,6 +94,7 @@ function socketSetup() {
           console.log('Recieve Candidate error.', ex);
         });
     } else if (msg.type === 'PING') {
+      console.log('%cSend ping', 'background: red; padding: 1px;');
       socket.send(JSON.stringify({ type: 'PONG' }));
     }
   }
@@ -107,6 +108,7 @@ function pcSetup(remoteId) {
   pc.remoteId = remoteId;
   pc.onicecandidate = function (evt) {
     console.log('%cpc onicecandidate', 'background: #79b74a; font-weight: bold; padding: 1px;');
+    console.log('%cSend candidate', 'background: red; padding: 1px;', evt.candidate);
     socket.send(JSON.stringify({
       type: 'CANDIDATE',
       cnd: evt.candidate,
