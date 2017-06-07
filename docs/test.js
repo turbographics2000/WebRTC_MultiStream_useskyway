@@ -54,7 +54,7 @@ function socketSetup() {
   }
   socket.onmessage = function (evt) {
     var msg = JSON.parse(evt.data);
-    console.log('msg', '%c' + JSON.stringify(msg), 'color: red');
+    console.log('%cRecieve message', 'color: white; background: #f89e41; padding: 1px', 'type:' + msg.type, JSON.stringify(msg));
     if (!pc && msg.src) {
       console.log('pcSetup', 'remoteId:' + msg.src, msg);
       pcSetup(msg.src);
@@ -108,11 +108,11 @@ function pcSetup(remoteId) {
   pc.remoteId = remoteId;
   pc.onicecandidate = function (evt) {
     console.log('%cpc onicecandidate', 'background: #79b74a; font-weight: bold; padding: 1px;');
-    console.log('%cSend candidate', 'color:white; background: red; padding: 1px;', evt.candidate);
+    console.log('%cSend candidate', 'color:white; background: red; padding: 1px;', 'dst:' + pc.remoteId, evt.candidate);
     socket.send(JSON.stringify({
       type: 'CANDIDATE',
       cnd: evt.candidate,
-      dst: this.remoteId
+      dst: pc.remoteId
     }));
   }
   pc.onnegotiationneeded = function (evt) {
@@ -124,7 +124,7 @@ function pcSetup(remoteId) {
         return pc.setLocalDescription(offer);
       })
       .then(_ => {
-        console.log('%cSend offer', 'color:white; background: red; padding: 1px', pc.localDescription);
+        console.log('%cSend offer', 'color:white; background: red; padding: 1px', 'dst:' + pc.remoteId, pc.localDescription);
         socket.send(JSON.stringify({
           type: 'OFFER',
           ofr: pc.localDescription,
