@@ -19,7 +19,7 @@ btnAddStream.onclick = evt => {
   if (!pc) pcSetup(callTo.value);
   addStream({ deviceId: devices[deviceIdx].deviceId});
   deviceIdx++;
-  if (deviceidx === devices.length) {
+  if (deviceIdx === devices.length) {
     btnAddStream.style.display = 'none';
   }
 }
