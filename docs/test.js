@@ -132,15 +132,18 @@ function pcSetup(remoteId) {
         }));
       });
   }
-  pc.onaddstream = function (evt) {
-    console.log('%cpc onaddstream', 'background: #ea4335, font-weight: bold; padding: 1px;');
-    createVideoElm(remoteViewContainer, evt.stream);
-  }
-  pc.ontrack = function (evt) {
-    if (evt.track.kind === 'video') {
-      evt.streams.forEach(stream => {
-        createVideoElm(remoteViewContainer, stream);
-      })
+  if ('ontrack' in pc) {
+    pc.ontrack = function (evt) {
+      if (evt.track.kind === 'video') {
+        evt.streams.forEach(stream => {
+          createVideoElm(remoteViewContainer, stream);
+        })
+      }
+    }
+  } else {
+    pc.onaddstream = function (evt) {
+      console.log('%cpc onaddstream', 'background: #ea4335, font-weight: bold; padding: 1px;');
+      createVideoElm(remoteViewContainer, evt.stream);
     }
   }
 }
