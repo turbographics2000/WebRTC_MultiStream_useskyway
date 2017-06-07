@@ -17,7 +17,7 @@ fetch(`https://skyway.io/${apiKey}/id?ts=${Date.now()}${Math.random()}`).then(re
 
 btnAddStream.onclick = evt => {
   if (!pc) pcSetup(callTo.value);
-  addStream({ deviceId: devices[deviceIdx].deviceId });
+  addStream({ sourceId: devices[deviceIdx].deviceId });
   deviceIdx++;
   if (deviceIdx === devices.length) {
     btnAddStream.style.display = 'none';
