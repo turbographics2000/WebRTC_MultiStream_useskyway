@@ -97,6 +97,9 @@ function socketSetup() {
       socket.send(JSON.stringify({ type: 'PONG' }));
     }
   }
+  socket.onclose = function(evt) {
+    console.log('socket onclose', JSON.stringify(evt));
+  }
 }
 
 function pcSetup(remoteId) {
