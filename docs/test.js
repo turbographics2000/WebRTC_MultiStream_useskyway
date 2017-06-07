@@ -31,7 +31,7 @@ function addStream(video = false, audio = false) {
       vid.style.width = (vid.videoWidth / vid.videoHeight * 160) + 'px';
       vid.style.height = '160px';
       vid.play();
-      selfViewContainer.appendChidl(vid);
+      selfViewContainer.appendChild(vid);
     }
     vid.srcObject = stream;
     if(pc.addStream) {
