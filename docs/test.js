@@ -124,7 +124,7 @@ function pcSetup(remoteId) {
         return pc.setLocalDescription(offer);
       })
       .then(_ => {
-        console.log('send offer', pc.localDescription);
+        console.log('%cSend offer', 'background: red; padding: 1px', pc.localDescription);
         socket.send(JSON.stringify({
           type: 'OFFER',
           ofr: pc.localDescription,
