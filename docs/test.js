@@ -12,7 +12,7 @@ fetch(`https://skyway.io/${apiKey}/id?ts=${Date.now()}${Math.random()}`).then(re
       devices = videoDevices;
       btnAddStream.style.display = '';
     }
-  })
+  });
 });
 
 btnAddStream.onclick = evt => {
