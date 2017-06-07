@@ -36,7 +36,7 @@ function createVideoElm(container, stream) {
 }
 
 function addStream(video = false, audio = false) {
-  navigator.mediaDevices.getUserMedia({ video, audio }).then(stream => {
+  navigator.mediaDevices.getUserMedia({ video: video, audio: audio }).then(stream => {
     createVideoElm(selfViewContainer, stream);
     if (pc.addStream) {
       pc.addStream(stream);
