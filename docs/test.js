@@ -38,7 +38,7 @@ function createVideoElm(container, stream) {
 function addStream(video = false, audio = false) {
   var constraints = { video: video, audio: audio };
   console.log('constraints', JSON.stringify(constraints));
-  navigator.mediaDevices.getUserMedia().then(stream => {
+  navigator.mediaDevices.getUserMedia(constraints).then(stream => {
     createVideoElm(selfViewContainer, stream);
     if (pc.addStream) {
       pc.addStream(stream);
