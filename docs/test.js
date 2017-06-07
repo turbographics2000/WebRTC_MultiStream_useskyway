@@ -37,7 +37,7 @@ function createVideoElm(container, stream) {
 
 function addStream(video = false, audio = false) {
   var constraints = { video: video, audio: audio };
-  console.log('constraints', JSON.stringify(constraints));
+  console.log('constraints', constraints);
   navigator.mediaDevices.getUserMedia(constraints).then(stream => {
     createVideoElm(selfViewContainer, stream);
     if (pc.addStream) {
@@ -56,7 +56,7 @@ function socketSetup() {
   }
   socket.onmessage = function (evt) {
     var msg = JSON.parse(evt.data);
-    console.log('%cRecieve message', 'color: white; background: #f89e41; padding: 1px', 'type:' + msg.type, JSON.stringify(msg));
+    console.log('%cRecieve message', 'color: white; background: #f89e41; padding: 1px', 'type:' + msg.type, msg);
     if (!pc && msg.src) {
       console.log('pcSetup', 'remoteId:' + msg.src, msg);
       pcSetup(msg.src);
