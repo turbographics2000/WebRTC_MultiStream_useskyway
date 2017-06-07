@@ -54,20 +54,20 @@ function socketSetup() {
   }
   socket.onmessage = function (evt) {
     var msg = JSON.parse(evt.data);
-    console.log('msg', JSON.stringify(msg));
+    console.log('msg', '%c' + JSON.stringify(msg), 'color: red');
     if (!pc && msg.src) {
       console.log('pcSetup', 'remoteId:' + msg.src, msg);
       pcSetup(msg.src);
     }
     if (msg.type === 'OFFER') {
-      console.log('%cRecieve offer', 'color: red', msg.ofr);
+      console.log('%cRecieve offer', 'color: #229933', msg.ofr);
       pc.setRemoteDescription(new RTCSessionDescription(msg.ofr))
         .then(_ => {
-          console.log('%cCreate answer', 'color: red');
+          console.log('%cCreate answer', 'color: #229933');
           return pc.createAnswer();
         })
         .then(answer => {
-          console.log('%csetLocalDescription(answer)', 'color: red', answer);
+          console.log('%csetLocalDescription(answer)', 'color: #229933', answer);
           return pc.setLocalDescription(answer);
         })
         .then(_ => {
