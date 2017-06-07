@@ -114,13 +114,13 @@ function pcSetup(remoteId) {
     console.log('%cpc onnegotiationneeded', 'background: #5d76a7; color: white; font-weight: bold; padding: 1px;');
     pc.createOffer()
       .then(offer => {
-        return that.setLocalDescription(offer);
+        return pc.setLocalDescription(offer);
       })
       .then(_ => {
         socket.send(JSON.stringify({
           type: 'OFFER',
           ofr: pc.localDescription,
-          dst: that.remoteId
+          dst: pc.remoteId
         }));
       });
   }
