@@ -125,7 +125,7 @@ function pcSetup(remoteId) {
         console.log('send offer', pc.localDescription);
         socket.send(JSON.stringify({
           type: 'OFFER',
-          ofr: pc.localDescription.toJSON(),
+          ofr: pc.localDescription,
           dst: pc.remoteId
         }));
       });
