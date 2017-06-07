@@ -112,11 +112,14 @@ function pcSetup(remoteId) {
   }
   pc.onnegotiationneeded = function (evt) {
     console.log('%cpc onnegotiationneeded', 'background: #5d76a7; color: white; font-weight: bold; padding: 1px;');
+    console.log('creaate offer');
     pc.createOffer()
       .then(offer => {
+        console.log('setLocalDescription(offer)', offer)
         return pc.setLocalDescription(offer);
       })
       .then(_ => {
+        console.log('send offer', pc.localDescription);
         socket.send(JSON.stringify({
           type: 'OFFER',
           ofr: pc.localDescription,
